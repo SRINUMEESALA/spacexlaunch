@@ -9,6 +9,19 @@ import {
   type ApiResponse,
 } from '../utils';
 
+export interface PaginatedLaunchesResponse {
+  docs: Launch[];
+  totalDocs: number;
+  limit: number;
+  totalPages: number;
+  page: number;
+  pagingCounter: number;
+  hasPrevPage: boolean;
+  hasNextPage: boolean;
+  prevPage: number | null;
+  nextPage: number | null;
+}
+
 export async function getLaunches(): Promise<ApiResponse<Launch[]>> {
   try {
     const response: AxiosResponse<unknown> =
@@ -24,6 +37,43 @@ export async function getLaunches(): Promise<ApiResponse<Launch[]>> {
     return {
       success: true,
       data: response.data,
+    };
+  } catch (error) {
+    return handleApiError(error);
+  }
+}
+
+export async function getLaunchesPaginated(
+  page: number = 1,
+  limit: number = 10
+): Promise<ApiResponse<PaginatedLaunchesResponse>> {
+  try {
+    const requestBody = {
+      query: {},
+      options: {
+        page,
+        limit,
+        sort: { date_utc: -1 },
+        populate: [],
+      },
+    };
+
+    const response: AxiosResponse<unknown> = await apiClient.post(
+      '/v5/launches/query',
+      requestBody
+    );
+
+    const data = response.data as Partial<PaginatedLaunchesResponse>;
+    if (!data || !Array.isArray(data.docs) || !isValidLaunchArray(data.docs)) {
+      return {
+        success: false,
+        error: 'Invalid paginated data received from SpaceX API',
+      };
+    }
+
+    return {
+      success: true,
+      data: data as PaginatedLaunchesResponse,
     };
   } catch (error) {
     return handleApiError(error);
