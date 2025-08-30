@@ -78,6 +78,7 @@ The app requests location permissions when you tap the location button:
 Uses the public SpaceX API:
 
 - Launches: `https://api.spacexdata.com/v5/launches`
+- Infinite Scrolling : `https://api.spacexdata.com/v5/launches/query`
 - Launchpads: `https://api.spacexdata.com/v4/launchpads/:id`
 
 ## App Screenshots
