@@ -1,29 +1,53 @@
 {
   "expo": {
-    "name": "SpaceLaunch",
-    "slug": "SpaceLaunch",
+    "name": "SpaceX Launch Explorer",
+    "slug": "spacex-launch-explorer",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.spacexlaunchexplorer.app",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "This app uses location to show your distance to SpaceX launchpads and provide directions.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "This app uses location to show your distance to SpaceX launchpads and provide directions."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "package": "com.spacexlaunchexplorer.app",
+      "permissions": ["ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION"],
+      "config": {
+        "googleMaps": {
+          "apiKey": "YOUR_GOOGLE_MAPS_API_KEY"
+        }
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow SpaceX Launch Explorer to use your location to show distance to launchpads and provide directions."
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "your-project-id"
+      }
     }
   }
 }
